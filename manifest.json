@@ -1,0 +1,17 @@
+{
+   "id": "jweisman/alma-receive-serials",
+   "title": "Receive New Serial Items",
+   "description": "Currently in BETA. Search for (or navigate to) a continuous PO line. Supports specifying the item details (or filling from the last item), multiple locations, updating the holdings summary, multiple copies, and providing barcodes.",
+   "author": "Josh Weisman",
+   "subtitle": "Quickly receive new serial issues",
+   "pages": {
+      "help": "https://github.com/jweisman/alma-receive-serials/wiki/Help"
+   },
+   "icon": {
+      "type": "font",
+      "value": "fa fa-newspaper-o"
+   },
+   "entities": [
+      "PO_LINE"
+   ]
+}

@@ -1,0 +1,33 @@
+<div class="loading-shade" *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+</div>
+<div>
+  <p translate>Main.Intro</p>
+  <mat-form-field>
+    <mat-placeholder translate>Main.SearchPOLine</mat-placeholder>
+      <input matInput type="search" #searchbox (keyup.enter)="search(searchbox.value)">
+      <button mat-button matSuffix mat-stroked-button aria-label="search" (click)="search(searchbox.value)">
+        <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>    
+</div>
+<div *ngIf="entities.length>0">
+  <mat-radio-group [(ngModel)]="selected">
+    <mat-radio-button *ngFor="let entity of entities; index as i" [value]="entity">
+      <span class="wrap-mat-radio-label">
+        {{i+1}}. {{entity.description}}
+      </span> 
+    </mat-radio-button>
+  </mat-radio-group> 
+</div>
+<mat-paginator [style.display]="entities.length<searchResults ? 'block' : 'none'" 
+  [length]="searchResults"
+  [pageSize]="10"
+  [pageSizeOptions]="[10,20]"
+  (page)="pageResults($event)">
+</mat-paginator>
+<div class="commands-container">
+  <button mat-button mat-stroked-button type="button" [disabled]="!selected" [routerLink]="['receive', selected?.id]">
+    {{ 'Main.ReceiveItem' | translate }}
+  </button>
+</div>

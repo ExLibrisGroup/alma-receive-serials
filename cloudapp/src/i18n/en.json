@@ -1,0 +1,43 @@
+{
+  "Main": {
+    "Intro": "To receive a new serial item, navigate to a PO line or search for one below.",
+    "SelectPOLine": "Select a PO line:",
+    "SearchPOLine": "Enter a PO line number, title, or MMS ID",
+    "POLine": "PO Line",
+    "ReceiveItem": "Receive New Item"
+  },
+  "Item": {
+    "Title": "Receive New Item",
+    "ItemData": "Item Data",
+    "LastItem": "Last item",
+    "FillFromLast": "Fill item template",
+    "AddLocation": "Add location",
+    "Receive": "Receive new items",
+    "Location": "Location",
+    "LoadingSummaries": "Loading summaries....",
+    "Success": "The following barcodes were successfully created:",
+    "ErrorList": "The follow errors occurred:",
+    "Fields": {
+      "Barcode": "Barcode",
+      "Holding": "Holding",
+      "Policy": "Item Policy",
+      "ChronI": "Chronology I",
+      "ChronJ": "Chronology J",
+      "ChronK": "Chronology K",
+      "EnumA": "Enumeration A",
+      "EnumB": "Enumeration B",
+      "EnumC": "Enumeration C",
+      "PublicNote": "Public Note",
+      "InternalNote1": "Internal Note 1",
+      "Description": "Description",
+      "Copies": "Copies",
+      "ProvideBarcodes": "Provide barcodes",
+      "Summary": "Holdings Summary"
+    },
+    "Validation": {
+      "ItemData": "Chron I or Enum A is required",
+      "Barcodes": "Barcodes are required",
+      "Holding": "Holding is required"
+    }
+  }
+}
