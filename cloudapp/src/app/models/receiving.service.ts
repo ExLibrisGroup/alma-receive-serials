@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CloudAppRestService, HttpMethod } from '@exlibris/exl-cloudapp-angular-lib';
 import { Item } from './item';
 import { Location, ReceivingLocationResponse } from './location';
-import { Observable, forkJoin, iif, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { iif, of, from } from 'rxjs';
+import { map, switchMap, concatMap, toArray } from 'rxjs/operators';
 import { Utils } from './utilities';
 import { replaceFields } from './marc-utils';
 
@@ -21,27 +21,27 @@ export class ReceivingService {
       * For each location
       * Combine item data with holding ID & policy
       * Create POST request for each item
-      * ForkJoin
+      * Create items (serially due to concurrency bug in Alma [URM-132010])
       * Update holdings record (remove summaries and add)
       * Report back
     */    
     return new Promise(resolve => {
-      let items = new Array<Observable<any>>();
+      let items = [];
       let response: ReceivingLocationResponse;
       for (let i = 0; i < location.copies.quantity; i++) {
-        items.push(
-          this.createItem(
-            itemTemplate, 
-            location.holdingId, 
-            polNumber,
-            location.copies.provideBarcodes 
-              ? location.copies.barcodes[i] 
-              : null, 
-            location.policy
-          )
-        )
+        items.push({
+          item: itemTemplate, 
+          holdingId: location.holdingId, 
+          polNumber: polNumber,
+          barcode: location.copies.provideBarcodes 
+            ? location.copies.barcodes[i] 
+            : null, 
+          policy: location.policy
+        })
       }
-      forkJoin(items).pipe(
+      from(items).pipe(
+        concatMap(item=>this.createItem(item)),
+        toArray(),
         map(results => {
           response = {
             description: location.holdingId,
@@ -84,7 +84,8 @@ export class ReceivingService {
     )
   }
 
-  private createItem(item: Item, holdingId: string, polNumber: string, barcode: string = "", policy: string = "" ) {
+  private createItem(params: {item: Item, holdingId: string, polNumber: string, barcode: string, policy: string }) {
+    const { item, holdingId, polNumber, barcode, policy } = params;
     item.holding_data.holding_id = holdingId;
     item.item_data.barcode = barcode;
     item.item_data.policy.value = policy;

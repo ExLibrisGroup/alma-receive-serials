@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CloudAppRestService, FormGroupUtil } from '@exlibris/exl-cloudapp-angular-lib';
 import { tap, switchMap, finalize } from 'rxjs/operators';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
-import { Item, ItemData } from '../models/item';
+import { Item } from '../models/item';
 import { Location, ReceivingResponse } from '../models/location';
 import { xmlToFields } from '../models/marc-utils';
 import { forkJoin } from 'rxjs';
@@ -42,6 +42,7 @@ export class ItemComponent implements OnInit {
       this.restService.call('/conf/code-tables/ItemPolicy')
     ])
     .pipe(
+      /* Get PO Line and Itme Policy code table */
       tap(([poline, codeTable])=>{
         this.itemPolicies = 
           codeTable.row.map(
@@ -49,6 +50,7 @@ export class ItemComponent implements OnInit {
           );
         this.poline=poline;
       }),
+      /* Get holdings and last item */
       switchMap(([poline])=>forkJoin([
         this.restService.call(`/bibs/${poline.resource_metadata.mms_id.value}/holdings/ALL/items?order_by=description&limit=2`),
         this.restService.call(`/bibs/${poline.resource_metadata.mms_id.value}/holdings`)
@@ -56,7 +58,7 @@ export class ItemComponent implements OnInit {
       finalize(()=>this.loading=false)
     )
     .subscribe(([items, holdings])=>{
-      if (items.item.length > 0) this.lastItem = items.item[0] as Item;
+      if (items.item && items.item.length > 0) this.lastItem = items.item[0] as Item;
       this.holdings = holdings.holding;
       const locationsForm = FormGroupUtil.toFormGroup(new Location());
       locationsForm.setValidators(this.validateLocation);
@@ -107,7 +109,6 @@ export class ItemComponent implements OnInit {
         this.poline.resource_metadata.mms_id.value, 
         this.poline.number
       );
-      console.log('results', results);
       response.locations.push(results)
     }
     this.loading = false;

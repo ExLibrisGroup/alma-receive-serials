@@ -62,7 +62,6 @@ export class MainComponent implements OnInit, OnDestroy {
     .pipe( finalize(()=>this.loading=false) )
     .subscribe(
       results => {
-        console.log('results', results);
         this.searchResults = results.total_record_count;
         this.entities=(results.po_line || []).map(p=>({
           id: p.number,
