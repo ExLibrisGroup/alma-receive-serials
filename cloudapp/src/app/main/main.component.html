@@ -27,7 +27,7 @@
   (page)="pageResults($event)">
 </mat-paginator>
 <div class="commands-container">
-  <button mat-button mat-stroked-button type="button" [disabled]="!selected" [routerLink]="['receive', selected?.id]">
+  <button mat-button mat-stroked-button type="button" [disabled]="!selected" [routerLink]="['receive', selected?.code]">
     {{ 'Main.ReceiveItem' | translate }}
   </button>
 </div>

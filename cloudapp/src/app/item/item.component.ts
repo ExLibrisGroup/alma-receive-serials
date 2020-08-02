@@ -8,6 +8,7 @@ import { Location, ReceivingResponse } from '../models/location';
 import { xmlToFields } from '../models/marc-utils';
 import { forkJoin } from 'rxjs';
 import { ReceivingService, SUMMARY_FIELDS } from '../models/receiving.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-item',
@@ -27,7 +28,8 @@ export class ItemComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private restService: CloudAppRestService,
-    private receivingService: ReceivingService
+    private receivingService: ReceivingService,
+    private toastrService: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -68,7 +70,8 @@ export class ItemComponent implements OnInit {
         itemTemplate: itemForm,
         locations: new FormArray([locationsForm])
       })
-    })
+    },
+    e => this.toastrService.error(`Error loading data: ${e.message}`))
   }
 
   updateCopies(index: number, target: HTMLInputElement) {
