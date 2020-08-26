@@ -65,6 +65,7 @@ export class MainComponent implements OnInit, OnDestroy {
         this.searchResults = results.total_record_count;
         this.entities=(results.po_line || []).map(p=>({
           id: p.number,
+          code: p.number,
           type: EntityType.PO_LINE,
           link: p.link,
           description: p.resource_metadata.title

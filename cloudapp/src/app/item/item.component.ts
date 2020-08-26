@@ -44,7 +44,7 @@ export class ItemComponent implements OnInit {
       this.restService.call('/conf/code-tables/ItemPolicy')
     ])
     .pipe(
-      /* Get PO Line and Itme Policy code table */
+      /* Get PO Line and Item Policy code table */
       tap(([poline, codeTable])=>{
         this.itemPolicies = 
           codeTable.row.map(
