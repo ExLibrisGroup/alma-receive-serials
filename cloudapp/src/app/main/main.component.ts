@@ -71,7 +71,12 @@ export class MainComponent implements OnInit, OnDestroy {
           description: p.resource_metadata.title
         }));
       },
-      e => this.toastr.error(`Could not retrieve search results: ${e.message}`)
+      e => {
+        if (e.status && e.status==401)
+          this.toastr.error('It appears you don\'t have the necessary role to retrieve PO lines.');
+        else 
+          this.toastr.error(`Could not retrieve search results: ${e.message}`)
+      }
     );
   }
 
