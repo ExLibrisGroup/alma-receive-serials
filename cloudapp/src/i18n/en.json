@@ -38,6 +38,7 @@
       "ItemData": "Chron I or Enum A is required",
       "Barcodes": "Barcodes are required",
       "Holding": "Holding is required"
-    }
+    },
+    "ReceivingNote": "Receiving Note"
   }
 }

@@ -22,6 +22,12 @@
       </button>
     </mat-card-content>
   </mat-card>
+  <mat-card *ngIf="poline.receiving_note">
+    <mat-card-title translate>Item.ReceivingNote</mat-card-title>
+    <mat-card-content>
+      <div>{{ poline.receiving_note }}</div>
+    </mat-card-content>
+  </mat-card>
   <mat-card>
     <mat-card-title>{{ 'Item.ItemData' | translate }}</mat-card-title>
     <mat-card-content>
