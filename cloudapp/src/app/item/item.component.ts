@@ -54,7 +54,7 @@ export class ItemComponent implements OnInit {
       }),
       /* Get holdings and last item */
       switchMap(([poline])=>forkJoin([
-        this.restService.call(`/bibs/${poline.resource_metadata.mms_id.value}/holdings/ALL/items?order_by=description&limit=2`),
+        this.restService.call(`/bibs/${poline.resource_metadata.mms_id.value}/holdings/ALL/items?order_by=receive_date&limit=2`),
         this.restService.call(`/bibs/${poline.resource_metadata.mms_id.value}/holdings`)
       ])),
       finalize(()=>this.loading=false)
